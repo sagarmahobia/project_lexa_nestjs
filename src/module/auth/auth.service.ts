@@ -30,7 +30,7 @@ export class AuthService {
       throw new BadRequestException('Invalid credentials');
     }
 
-    if (!await  this.passUtil.comparePass(password, one.password)) {
+    if (!await this.passUtil.comparePass(password, one.password)) {
       throw new BadRequestException('Invalid credentials');
     }
 
@@ -50,13 +50,9 @@ export class AuthService {
     var user = this.userRepository.create(
       dto,
     );
-    // user.role = dto.role;
-    // user.name = dto.name;
-    // user.email = dto.email;
-    // user.password = dto.password;
-    // return await this.userRepository.save(user);
 
-    return user;
+    return this.userRepository.save(user);
+
 
   }
 
