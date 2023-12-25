@@ -11,6 +11,7 @@ import { RolesGuard } from './guards/roles.guard';
 import { DatabaseModule } from '../../database/database.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.schema';
+import { PasswordUtils } from '../../utils/password-utils';
 
 // import { userProviders } from "./user.provider";
 
@@ -23,6 +24,7 @@ import { User } from './entities/user.schema';
       provide: APP_GUARD,
       useClass: RolesGuard,
     }, /*...userProviders*/
+    PasswordUtils
   ],
   imports: [PassportModule,
     JwtModule.register({

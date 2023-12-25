@@ -5,6 +5,8 @@ import { ClusterService } from './cluster.service';
 import { AuthModule } from './module/auth/auth.module';
 import * as process from 'process';
 import { DatabaseModule } from './database/database.module';
+import { PasswordUtils } from './utils/password-utils';
+
 const validationPipeProvider = {
   provide: 'APP_PIPE',
   useClass: ValidationPipe,
@@ -29,13 +31,13 @@ const loggerProvider = {
     ConfigModule.forRoot(
       {
         isGlobal: true,
-        envFilePath: `${process.env.NODE_ENV}.env`
+        envFilePath: `${process.env.NODE_ENV}.env`,
       },
     ),
     DatabaseModule,
   ],
   controllers: [],
-  providers: [loggerProvider, validationPipeProvider, httpExceptionFilterProvider, ClusterService],
+  providers: [loggerProvider, validationPipeProvider, httpExceptionFilterProvider, ClusterService, PasswordUtils],
 })
 export class AppModule {
 }

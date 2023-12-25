@@ -6,12 +6,16 @@ import { Public } from './decorators/public.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { HasRole } from './decorators/role.decorator';
 import { Roles } from './roles.enum';
+import { PasswordUtils } from '../../utils/password-utils';
 
 @ApiTags('Auth')
 @Controller('auth')
 @ApiBearerAuth()
 export class AuthController {
-  constructor(private authService: AuthService) {
+  constructor(
+    private passUtils: PasswordUtils,
+    private authService: AuthService,
+  ) {
   }
 
   @Get('login')
@@ -42,7 +46,7 @@ export class AuthController {
   ): Promise<RestResponse> {
 
 
-    const hPassword = await hashPassword(dto.password);
+    const hPassword = await this.passUtils.hashPassword(dto.password);
     dto.password = hPassword;
 
     let didCreate = await this.authService.registerUser(dto);

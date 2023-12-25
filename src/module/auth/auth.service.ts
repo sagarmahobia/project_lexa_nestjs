@@ -5,11 +5,13 @@ import { User } from './entities/user.schema';
 import { Repository } from 'typeorm';
 import { JwtUser } from './dto/jwt-user.model';
 import { CreateUserDto } from './dto/create-user.dto';
+import { PasswordUtils } from '../../utils/password-utils';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
+    private passUtil: PasswordUtils,
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {
   }
@@ -28,7 +30,7 @@ export class AuthService {
       throw new BadRequestException('Invalid credentials');
     }
 
-    if (!await bcrypt.compare(password, one.password)) {
+    if (!await  this.passUtil.comparePass(password, one.password)) {
       throw new BadRequestException('Invalid credentials');
     }
 
